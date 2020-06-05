@@ -1,3 +1,27 @@
+# Markers after fork
+
+Before compling, ensure there are 6GB memory available at your Linux system / Virtual machine / Docker Environment, or the compling will fail.
+
+## Build commands:
+
+```bash
+docker run --rm -it -v C:\Users\FF\Desktop\ffmpeg.js:/mnt -w /opt kagamihi/ffmpeg.js
+cp -a /mnt/{.git,build,Makefile} . && source /root/emsdk/emsdk_env.sh && make ffmpeg-worker-mp4.js && cp ffmpeg*.{js,wasm} /mnt
+```
+
+## Changes ffmpeg options and rebuild:
+
+```bash
+make clean && cp /mnt/Makefile /opt/Makefile && cd /opt && make ffmpeg-worker-mp4.js && cp ffmpeg*.{js,wasm} /mnt && rm ffmpeg*.{js,wasm}
+```
+
+## Changes emcc options and rebuild:
+
+```bash
+cp /mnt/Makefile /opt/Makefile && cd /opt && make ffmpeg-worker-mp4.js && cp ffmpeg*.{js,wasm} /mnt && rm ffmpeg*.{js,wasm}
+```
+
+
 # ffmpeg.js
 
 [![NPM](https://nodei.co/npm/ffmpeg.js.png?downloads=true)](https://www.npmjs.com/package/ffmpeg.js)

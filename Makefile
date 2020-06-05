@@ -6,9 +6,17 @@ PRE_JS = build/pre.js
 POST_JS_SYNC = build/post-sync.js
 POST_JS_WORKER = build/post-worker.js
 
-COMMON_FILTERS = aresample scale crop overlay hstack vstack
-COMMON_DEMUXERS = matroska ogg mov mp3 wav image2 concat
-COMMON_DECODERS = vp8 h264 vorbis opus mp3 aac pcm_s16le mjpeg png
+COMMON_FILTERS = scale aresample afade
+
+# For decode file formats, not affect file size much.
+# "avi mov flv" must be included to join h264 segments.
+COMMON_DEMUXERS = matroska ogg avi mov flv mp3 image2 concat
+
+# For decode file contents, affect file size much.
+COMMON_DECODERS = vp8 vp9 h264 opus mp3 aac mjpeg png
+
+# Required for concat h264 video segments.
+COMMON_BSF = h264_mp4toannexb
 
 WEBM_MUXERS = webm ogg null
 WEBM_ENCODERS = libvpx_vp8 libopus
@@ -18,8 +26,8 @@ WEBM_SHARED_DEPS = \
 	build/opus/dist/lib/libopus.so \
 	build/libvpx/dist/lib/libvpx.so
 
-MP4_MUXERS = mp4 mp3 null
-MP4_ENCODERS = libx264 libmp3lame aac
+MP4_MUXERS = mp4 mp3 null image2
+MP4_ENCODERS = libx264 libmp3lame aac mjpeg png
 FFMPEG_MP4_BC = build/ffmpeg-mp4/ffmpeg.bc
 FFMPEG_MP4_PC_PATH = ../x264/dist/lib/pkgconfig
 MP4_SHARED_DEPS = \
@@ -165,6 +173,7 @@ FFMPEG_COMMON_ARGS = \
 	--enable-avcodec \
 	--enable-avformat \
 	--enable-avfilter \
+	--enable-avutil \
 	--enable-swresample \
 	--enable-swscale \
 	--disable-network \
@@ -176,6 +185,7 @@ FFMPEG_COMMON_ARGS = \
 	$(addprefix --enable-demuxer=,$(COMMON_DEMUXERS)) \
 	--enable-protocol=file \
 	$(addprefix --enable-filter=,$(COMMON_FILTERS)) \
+	$(addprefix --enable-bsf=,$(COMMON_BSF)) \
 	--disable-bzlib \
 	--disable-iconv \
 	--disable-libxcb \
@@ -217,14 +227,14 @@ build/ffmpeg-mp4/ffmpeg.bc: $(MP4_SHARED_DEPS)
 EMCC_COMMON_ARGS = \
 	-O3 \
 	--closure 1 \
-	--memory-init-file 0 \
-	-s WASM=0 \
+	-s WASM=1 \
 	-s WASM_ASYNC_COMPILATION=0 \
 	-s ASSERTIONS=0 \
 	-s EXIT_RUNTIME=1 \
 	-s NODEJS_CATCH_EXIT=0 \
 	-s NODEJS_CATCH_REJECTION=0 \
 	-s TOTAL_MEMORY=67108864 \
+	-s ALLOW_MEMORY_GROWTH=1 \
 	-lnodefs.js -lworkerfs.js \
 	--pre-js $(PRE_JS) \
 	-o $@
@@ -242,9 +252,9 @@ ffmpeg-worker-webm.js: $(FFMPEG_WEBM_BC) $(PRE_JS) $(POST_JS_WORKER)
 ffmpeg-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_SYNC)
 	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_SYNC) \
-		$(EMCC_COMMON_ARGS) -O2
+		$(EMCC_COMMON_ARGS)
 
 ffmpeg-worker-mp4.js: $(FFMPEG_MP4_BC) $(PRE_JS) $(POST_JS_WORKER)
 	emcc $(FFMPEG_MP4_BC) $(MP4_SHARED_DEPS) \
 		--post-js $(POST_JS_WORKER) \
-		$(EMCC_COMMON_ARGS) -O2
+		$(EMCC_COMMON_ARGS)
