@@ -12,7 +12,7 @@ COMMON_FILTERS = scale aresample afade
 # "avi mov flv" must be included to join h264 segments.
 COMMON_DEMUXERS = matroska ogg avi mov flv mp3 image2 concat
 
-# For decode file contents, affect file size much.
+# For decode file contents, affect file size more than muxer and demuxer.
 COMMON_DECODERS = vp8 vp9 h264 opus mp3 aac mjpeg png
 
 # Required for concat h264 video segments.
