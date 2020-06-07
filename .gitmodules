@@ -14,11 +14,7 @@
 	path = build/x264
 	url = https://code.videolan.org/videolan/x264.git
 	ignore = dirty
-[submodule "build/ffmpeg-webm"]
-	path = build/ffmpeg-webm
-	url = https://git.ffmpeg.org/ffmpeg.git
-	ignore = dirty
-[submodule "build/ffmpeg-mp4"]
-	path = build/ffmpeg-mp4
+[submodule "build/ffmpeg"]
+	path = build/ffmpeg
 	url = https://git.ffmpeg.org/ffmpeg.git
 	ignore = dirty
