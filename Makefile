@@ -8,8 +8,8 @@ POST_JS_WORKER = build/post-worker.js
 
 
 
-# Filters can be used as -f...
-FILTERS = scale aresample afade
+# For decode file contents, affect file size more than muxer and demuxer.
+COMMON_DECODERS = vp8 vp9 h264 opus mp3 aac mjpeg png
 
 # Required for concat h264 video segments.
 BSF = h264_mp4toannexb
