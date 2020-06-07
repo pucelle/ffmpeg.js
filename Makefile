@@ -20,7 +20,7 @@ DEMUXERS = matroska ogg avi mov flv mp3 image2 concat
 
 # For decode file contents.
 # Note that `vp9` is not equals to `libvpx_vp9`, only `libvpx_vp9` supports alpha channel.
-# Note that `libvpx-vp9` is not working, but after compiled, `libvpx-vp9` works when specifies codec.
+# Note that `libvpx-vp9` is not working, but after compiled, `libvpx-vp9` and `vp9` both works when specifies codec.
 DECODERS = libvpx_vp9 h264 opus mp3 aac mjpeg png
 
 
