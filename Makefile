@@ -7,13 +7,11 @@ POST_JS_SYNC = build/post-sync.js
 POST_JS_WORKER = build/post-worker.js
 
 
-
-# For decode file contents, affect file size more than muxer and demuxer.
-COMMON_DECODERS = vp8 vp9 h264 opus mp3 aac mjpeg png
+# Filters can be used as -f...
+FILTERS = scale aresample afade
 
 # Required for concat h264 video segments.
 BSF = h264_mp4toannexb
-
 
 
 # The file formats can be recognized.
@@ -25,13 +23,11 @@ DEMUXERS = matroska ogg avi mov flv mp3 image2 concat
 DECODERS = libvpx-vp9 h264 opus mp3 aac mjpeg png
 
 
-
 # The file format can be generated.
 MUXERS = mp4 mp3 null image2
 
 # The codecs can be used when generate files.
 ENCODERS = libx264 libmp3lame aac mjpeg png
-
 
 
 FFMPEG_BC = build/ffmpeg/ffmpeg.bc
