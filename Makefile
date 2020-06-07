@@ -19,8 +19,9 @@ BSF = h264_mp4toannexb
 DEMUXERS = matroska ogg avi mov flv mp3 image2 concat
 
 # For decode file contents.
-# Note that `vp9` is not equals to `libvpx_vp9`.
-DECODERS = libvpx-vp9 h264 opus mp3 aac mjpeg png
+# Note that `vp9` is not equals to `libvpx_vp9`, only `libvpx_vp9` supports alpha channel.
+# Note that `libvpx-vp9` is not working, but after compiled, `libvpx-vp9` works when specifies codec.
+DECODERS = libvpx_vp9 h264 opus mp3 aac mjpeg png
 
 
 # The file format can be generated.
@@ -76,6 +77,7 @@ build/opus/dist/lib/libopus.so: build/opus/configure
 	emmake make -j && \
 	emmake make install
 
+# `disable-vp9-encoder` can reduce about 12KB wasm size.
 build/libvpx/dist/lib/libvpx.so:
 	cd build/libvpx && \
 	git reset --hard && \
@@ -94,8 +96,8 @@ build/libvpx/dist/lib/libvpx.so:
 		--disable-unit-tests \
 		--disable-webm-io \
 		--disable-libyuv \
-		--disable-vp8-decoder \
-		--disable-vp9 \
+		--disable-vp8 \
+		--disable-vp9-encoder \
 		&& \
 	emmake make -j && \
 	emmake make install
