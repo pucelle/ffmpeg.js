@@ -8,7 +8,7 @@ POST_JS_WORKER = build/post-worker.js
 
 
 # Filters can be used as -f...
-FILTERS = scale crop aresample afade
+FILTERS = scale crop aresample afade alphaextract
 
 # Required for concat h264 video segments.
 BSF = h264_mp4toannexb
@@ -21,14 +21,14 @@ DEMUXERS = matroska ogg avi mov flv mp3 image2 concat
 # For decode file contents.
 # Note that `vp9` is not equals to `libvpx_vp9`, only `libvpx_vp9` supports alpha channel.
 # Note that `libvpx-vp9` is not working, but after compiled, `libvpx-vp9` and `vp9` both works when specifies codec.
-DECODERS = libvpx_vp9 h264 opus mp3 aac mjpeg png
+DECODERS = libvpx_vp9 h264 opus mp3 aac mjpeg
 
 
 # The file format can be generated.
 MUXERS = mp4 mp3 null image2
 
 # The codecs can be used when generate files.
-ENCODERS = libx264 libmp3lame aac mjpeg png
+ENCODERS = libx264 libmp3lame aac mjpeg
 
 
 FFMPEG_BC = build/ffmpeg/ffmpeg.bc

@@ -1,6 +1,6 @@
 # Markers after fork
 
-Before compling, ensure there are 6GB memory available at your Linux system / Virtual machine / Docker Environment, or the compling will fail.
+Before compling, ensure 4GB memory available at your Linux system / Virtual machine / Docker Environment, or the compling may fail.
 
 If you are working on Windows, run:
 

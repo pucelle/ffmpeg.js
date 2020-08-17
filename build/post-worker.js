@@ -2,6 +2,7 @@
 }
 
 var __ffmpegjs_running = false;
+var __wasm_url = ''
 
 // Shim for nodejs
 if (typeof self === "undefined") {
@@ -17,6 +18,7 @@ self.onmessage = function(e) {
       __ffmpegjs_running = true;
       self.postMessage({"type": "run"});
       var opts = {};
+      opts.wasm_url = __wasm_url;
       Object.keys(msg).forEach(function(key) {
         if (key !== "type") {
           opts[key] = msg[key]
@@ -43,6 +45,9 @@ self.onmessage = function(e) {
       self.postMessage({"type": "done", "data": result}, transfer);
       __ffmpegjs_running = false;
     }
+  }
+  else if (msg["type"] == "set_wasm_url") {
+    __wasm_url = msg.url
   } else {
     self.postMessage({"type": "error", "data": "unknown command"});
   }
