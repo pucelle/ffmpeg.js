@@ -18,6 +18,8 @@ for (let fileName of fileNames) {
 		let optionVariableName = text.match(/function \w+\((\w+)\)/)[1]
 		
 		text = text.replace(/\.open\("GET",(\w+),!1\)/g, `.open("GET",${optionVariableName}.wasm_url||$1,!1)`)
+			.replace(/(postMessage\(\{type:"run"\}\);var \w+=\{\};\w+\.)\w+(=\w+;)/, '$1wasm_url$2')
+			
 		fs.writeFileSync(filePath, text)
 	}
 

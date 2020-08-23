@@ -27,6 +27,12 @@ make clean && cp /mnt/Makefile /opt/Makefile && cd /opt && make ffmpeg-worker.js
 cp /mnt/Makefile /opt/Makefile && cd /opt && make ffmpeg-worker.js && cp ffmpeg*.{js,wasm} /mnt && rm ffmpeg*.{js,wasm}
 ```
 
+## Fix ffmpeg-worker.js to support crossed origin resources:
+
+```bash
+npm run fix
+```
+
 
 # ffmpeg.js
 
